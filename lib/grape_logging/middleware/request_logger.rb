@@ -60,8 +60,8 @@ module GrapeLogging
           begin
             @app_response = @app.call(@env)
           rescue => e
-            # Log as 500 + message
-            after(e.status, e.message)
+            # Log as given status or 500 + message
+            after(e.respond_to?(:status) ? e.status : 500, e.message)
 
             # Re-raise exception
             raise e
